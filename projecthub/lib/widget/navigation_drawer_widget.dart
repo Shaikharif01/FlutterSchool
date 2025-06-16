@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:projecthub/page/favourites_page.dart';
+import 'package:projecthub/page/generate_code_page.dart';
 import 'package:projecthub/page/people_page.dart';
 import 'package:projecthub/page/user_page.dart';
+import 'package:projecthub/page/share_files_page.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
-  final padding = EdgeInsets.symmetric(horizontal: 20);
+  final padding = const EdgeInsets.symmetric(horizontal: 20);
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +15,8 @@ class NavigationDrawerWidget extends StatelessWidget {
         'https://media.licdn.com/dms/image/v2/D4D03AQFIB6CvOfGpqA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1685814479509?e=1755734400&v=beta&t=1p1c8qeFQ9C0ZGArxjr1jP_I1F3IiBl5rBvnjLsFY3k';
 
     return Drawer(
-      child: Material(
-        color: Colors.deepPurple,
+      child: Container(
+        color: Colors.deepPurple.shade700,
         child: ListView(
           children: <Widget>[
             buildHeader(
@@ -24,7 +25,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               email: email,
               onClicked: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => UserPage(
-                  name: 'Sarah Abs',
+                  name: name,
                   urlImage: urlImage,
                 ),
               )),
@@ -35,39 +36,39 @@ class NavigationDrawerWidget extends StatelessWidget {
                 children: [
                   const SizedBox(height: 12),
                   buildSearchField(),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 30),
                   buildMenuItem(
                     text: 'Podify',
-                    icon: Icons.people,
+                    icon: Icons.podcasts_rounded,
                     onClicked: () => selectedItem(context, 0),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
                   buildMenuItem(
-                    text: 'Favourites',
-                    icon: Icons.favorite_border,
+                    text: 'QR Scanner',
+                    icon: Icons.qr_code,
                     onClicked: () => selectedItem(context, 1),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
                   buildMenuItem(
                     text: 'Workflow',
                     icon: Icons.workspaces_outline,
                     onClicked: () => selectedItem(context, 2),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
                   buildMenuItem(
                     text: 'Updates',
                     icon: Icons.update,
                     onClicked: () => selectedItem(context, 3),
                   ),
-                  const SizedBox(height: 24),
-                  Divider(color: Colors.white70),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 30),
+                  Divider(color: Colors.white54),
+                  const SizedBox(height: 20),
                   buildMenuItem(
-                    text: 'Plugins',
-                    icon: Icons.account_tree_outlined,
+                    text: 'Share Files',
+                    icon: Icons.share_outlined,
                     onClicked: () => selectedItem(context, 4),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
                   buildMenuItem(
                     text: 'Notifications',
                     icon: Icons.notifications_outlined,
@@ -91,33 +92,43 @@ class NavigationDrawerWidget extends StatelessWidget {
       InkWell(
         onTap: onClicked,
         child: Container(
-          padding: padding.add(EdgeInsets.symmetric(vertical: 40)),
+          padding: padding.add(const EdgeInsets.symmetric(vertical: 40)),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF5E35B1), Color(0xFF7E57C2)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
           child: Row(
             children: [
               CircleAvatar(radius: 30, backgroundImage: NetworkImage(urlImage)),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      name,
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    Text(name,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                        overflow: TextOverflow.ellipsis),
                     const SizedBox(height: 4),
-                    Text(
-                      email,
-                      style: TextStyle(fontSize: 14, color: Colors.white),
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    Text(email,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white70,
+                        ),
+                        overflow: TextOverflow.ellipsis),
                   ],
                 ),
               ),
-              SizedBox(width: 10),
-              CircleAvatar(
-                radius: 24,
-                backgroundColor: Color(0xFF673AB7), // deep purple shade
+              const SizedBox(width: 10),
+              const CircleAvatar(
+                radius: 22,
+                backgroundColor: Color(0xFF9575CD),
                 child: Icon(Icons.add_comment_outlined, color: Colors.white),
               )
             ],
@@ -126,24 +137,23 @@ class NavigationDrawerWidget extends StatelessWidget {
       );
 
   Widget buildSearchField() {
-    final color = Colors.white;
-
     return TextField(
-      style: TextStyle(color: color),
+      style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         hintText: 'Search',
-        hintStyle: TextStyle(color: color),
-        prefixIcon: Icon(Icons.search, color: color),
+        hintStyle: const TextStyle(color: Colors.white70),
+        prefixIcon: const Icon(Icons.search, color: Colors.white70),
         filled: true,
         fillColor: Colors.white12,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
-          borderSide: BorderSide(color: color.withOpacity(0.7)),
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.white.withOpacity(0.3)),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
-          borderSide: BorderSide(color: color.withOpacity(0.7)),
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.white.withOpacity(0.7)),
         ),
       ),
     );
@@ -154,13 +164,14 @@ class NavigationDrawerWidget extends StatelessWidget {
     required IconData icon,
     VoidCallback? onClicked,
   }) {
-    final color = Colors.white;
-    final hoverColor = Colors.white70;
-
     return ListTile(
-      leading: Icon(icon, color: color),
-      title: Text(text, style: TextStyle(color: color)),
-      hoverColor: hoverColor,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      leading: Icon(icon, color: Colors.white),
+      title: Text(
+        text,
+        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+      ),
+      hoverColor: Colors.deepPurple.shade400,
       onTap: onClicked,
     );
   }
@@ -176,7 +187,12 @@ class NavigationDrawerWidget extends StatelessWidget {
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => FavouritesPage(),
+          builder: (context) => GenerateCodePage(),
+        ));
+        break;
+      case 4:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ShareFilesPage(),
         ));
         break;
     }
