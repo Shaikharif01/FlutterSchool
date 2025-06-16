@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:podify/api/podcast_api.dart';
+import 'package:podify/model/podcast.dart';
 import 'package:podify/view/widget/podcast_item.dart';
 
 class PodcastScreen extends StatefulWidget {
@@ -9,6 +11,20 @@ class PodcastScreen extends StatefulWidget {
 }
 
 class _PodcastScreenState extends State<PodcastScreen> {
+  List<Podcast>? podcasts;
+  final podcastApi = PodcastApi();
+
+  @override
+  void initState(){
+    super.initState();
+    fetchPodcasts();
+  }
+
+  Future<void> fetchPodcasts() async{
+    podcasts = await podcastApi.fetchPodcasts();
+    setState(() {    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,14 +55,17 @@ class _PodcastScreenState extends State<PodcastScreen> {
   ),
 ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView.separated(
-          itemCount: 1,
-          separatorBuilder: (_, __) => const SizedBox(height: 16),
-          itemBuilder: (context, index) => const PodcastItem(),
-        ),
+      body: podcasts == null
+    ? const Center(child: CircularProgressIndicator())
+    : ListView.separated(
+        itemCount: podcasts!.length,
+        itemBuilder: (context, index) {
+          final podcast = podcasts![index];
+          return PodcastItem(podcast: podcast);
+        },
+        separatorBuilder: (_, __) => const SizedBox(height: 10),
       ),
+
     );
   }
 }
